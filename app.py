@@ -1,9 +1,14 @@
 from flask import Flask, render_template
+from database import resultOpen, resultClose, resultHigh, resultLow
 
 app = Flask(__name__)
 
 @app.route('/')
 def line():
+    
+    # print(resultLow)
+    xValues = resultLow['Date']
+    print(xValues)
 
     months = [
         'JAN', 'FEB', 'MAR', 'APR',

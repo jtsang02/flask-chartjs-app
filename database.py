@@ -98,10 +98,10 @@ where ticker in ('"""+ "','".join(select_tickers) + """')
 and Date >= '"""+ start_date + """'
 and Date < '""" + end_date + "'"
 c.execute(query1.replace('\n',' '))
-result1 = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'open'])
+resultOpen = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'open'])
 # convert to datetime
-result1['Date'] = pd.to_datetime(result1['Date'])
-print(result1)
+resultOpen['Date'] = pd.to_datetime(resultOpen['Date'])
+# print(resultOpen)
 
 query2 = """
 select * from close
@@ -109,10 +109,10 @@ where ticker in ('"""+ "','".join(select_tickers) + """')
 and Date >= '"""+ start_date + """'
 and Date < '""" + end_date + "'"
 c.execute(query2.replace('\n',' '))
-result2 = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'close'])
+resultClose = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'close'])
 # convert to datetime
-result2['Date'] = pd.to_datetime(result2['Date'])
-print(result2)
+resultClose['Date'] = pd.to_datetime(resultClose['Date'])
+# print(resultClose)
 
 query3 = """
 select * from high
@@ -120,10 +120,10 @@ where ticker in ('"""+ "','".join(select_tickers) + """')
 and Date >= '"""+ start_date + """'
 and Date < '""" + end_date + "'"
 c.execute(query3.replace('\n',' '))
-result3 = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'high'])
+resultHigh = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'high'])
 # convert to datetime
-result3['Date'] = pd.to_datetime(result3['Date'])
-print(result3)
+resultHigh['Date'] = pd.to_datetime(resultHigh['Date'])
+# print(resultHigh)
 
 query4 = """
 select * from low
@@ -131,9 +131,13 @@ where ticker in ('"""+ "','".join(select_tickers) + """')
 and Date >= '"""+ start_date + """'
 and Date < '""" + end_date + "'"
 c.execute(query4.replace('\n',' '))
-result4 = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'low'])
+resultLow = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'low'])
 # convert to datetime
-result4['Date'] = pd.to_datetime(result4['Date'])
-print(result4)
+resultLow['Date'] = pd.to_datetime(resultLow['Date'])
+
+yLow = resultLow['low'].values.tolist()
+
+print(resultLow['Date'])
+print(yLow)
 
 # https://medium.com/cassandra-cryptoassets/download-and-store-stock-prices-using-python-and-sqlite-e5fa0ea372cc
