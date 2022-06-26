@@ -1,4 +1,6 @@
-node_modules/
-venv/
+node_modules\
+venv\
 *.pyc
 .vscode/launch.json
+*.pyc
+*.exe
