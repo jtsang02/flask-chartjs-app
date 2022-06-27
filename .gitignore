@@ -4,3 +4,4 @@ venv\
 .vscode/launch.json
 *.pyc
 *.exe
+stockPrices.db-journal

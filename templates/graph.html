@@ -1,34 +1,84 @@
 <!DOCTYPE html>
 <html>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-  <title>stock prices</title>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <title>Stock prices</title>
 
   <body>
     <canvas id="myChart" style="width: 100%; max-width: 900px"></canvas>
 
-    <script>
-      var xValues = {{labels | safe}};
-      var yValues = {{values | safe}};
+    <br />
+    <h2 align="center">
+      <p id="chartTitle">Option Selected: open</p>
+    </h2>
+    <br />
+    <select
+      onchange="updateChart()"
+      name="search_filter"
+      id="search_filter"
+      class="form-control"
+      method='post'
+    >
+      <option value="open">open</option>
+      <option value="close">close</option>
+      <option value="high">high</option>
+      <option value="low">low</option>
+    </select>
 
-      new Chart("myChart", {
+    <input type="hidden" name="hidden_value" id="hidden_value" />
+    <div style="clear: both"></div>
+    <br />
+
+    <script>
+      var xValues = {{ labels | safe }};
+      var yValues = {{ values | safe }};
+      // var max = Math.ceil(Math.max( ...yValues) / 10) * 10;
+
+      // create chart
+      let lineChart = new Chart("myChart", {
         type: "line",
         data: {
           labels: xValues,
           datasets: [{
+            data: yValues,
             fill: false,
             lineTension: 0,
+            pointRadius: 2,
+            pointHoverRadius: 1,
             backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-            data: yValues
+            borderColor: "rgba(0,0,255,3)",
+            borderWidth: 1
           }]
         },
         options: {
           legend: {display: false},
           scales: {
-            yAxes: [{ticks: {min: 0, max:17000}}],
+            xAxis: {
+              type: 'time',
+            },
+            yAxes: [{ticks: {min: 0, max: 1800}}],
           }
         }
       });
+
+      function updateChart() {
+        
+        var option = document.getElementById('search_filter');
+        var endPt = `/${option.value}`;
+        var getData = $.get(endPt);
+
+        getData.done(function(results) {
+          var xValues = results.xValues;
+          var yValues = results.yValues;
+
+          lineChart.data.labels = xValues;
+          lineChart.data.datasets[0].data = yValues;
+          lineChart.update();
+        })
+
+        document.getElementById("chartTitle").innerHTML = "Option Selected: " + option.value;
+      }
     </script>
   </body>
 </html>

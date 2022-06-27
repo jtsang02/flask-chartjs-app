@@ -1,34 +1,29 @@
-from flask import Flask, render_template
-from database import resultOpen, resultClose, resultHigh, resultLow
+from flask import Flask, jsonify, render_template
+from readDatabase import prices_open, dates_open, prices_close, prices_high, prices_low
 
 app = Flask(__name__)
 
 @app.route('/')
 def line():
-    
-    # print(resultLow)
-    xValues = resultLow['Date']
-    print(xValues)
-
-    months = [
-        'JAN', 'FEB', 'MAR', 'APR',
-        'MAY', 'JUN', 'JUL', 'AUG',
-        'SEP', 'OCT', 'NOV', 'DEC'
-    ]
-
-    prices = [
-        967.67, 1190.89, 1079.75, 1349.19,
-        2328.91, 2504.28, 2873.83, 4764.87,
-        4349.29, 6458.30, 9907, 16297
-    ]
-
-    # labels = [row[0] for row in data]
-    # values = [row[1] for row in data]
-
-    labels = months
-    values = prices
-
+    labels = dates_open
+    values = prices_open
     return render_template("graph.html", labels=labels, values=values)
+
+@app.route('/open')
+def openPrices():
+    return jsonify({'xValues' : dates_open, 'yValues' : prices_open})
+
+@app.route('/close')
+def closedPrices():
+    return jsonify({'xValues' : dates_open, 'yValues' : prices_close})
+
+@app.route('/high')
+def highPrices():
+    return jsonify({'xValues' : dates_open, 'yValues' : prices_high})
+
+@app.route('/low')
+def lowPrices():
+    return jsonify({'xValues' : dates_open, 'yValues' : prices_low})
 
 if __name__ == "__main__":
     app.run()
