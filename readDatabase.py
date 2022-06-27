@@ -56,7 +56,7 @@ def read_db(con, setting):
 con = create_connection('stockPrices.db')
 
 # extract data as list from db
-dates_open = read_db(con, 'open')[0]
+dates = read_db(con, 'open')[0]
 prices_open = read_db(con, 'open')[1]
 prices_close = read_db(con, 'close')[1]
 prices_high = read_db(con, 'high')[1]

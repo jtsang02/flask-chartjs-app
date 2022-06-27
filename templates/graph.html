@@ -10,7 +10,7 @@
 
     <br />
     <h2 align="center">
-      <p id="chartTitle">Option Selected: open</p>
+      <p id="chartTitle">Prices for LBS=F: open</p>
     </h2>
     <br />
     <select
@@ -62,6 +62,7 @@
         }
       });
 
+      // update chart data
       function updateChart() {
         
         var option = document.getElementById('search_filter');
@@ -77,7 +78,7 @@
           lineChart.update();
         })
 
-        document.getElementById("chartTitle").innerHTML = "Option Selected: " + option.value;
+        document.getElementById("chartTitle").innerHTML = "Prices for LBS=F: " + option.value;
       }
     </script>
   </body>
